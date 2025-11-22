@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parking Lot Powerlifters - Mobile Powerlifting Training</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
 /* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -48,12 +53,87 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    z-index: 1001;
+}
+
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    padding: 0.5rem 0;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #fff;
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
-    color: #dc2626;
+    width: 48px;
+    height: 48px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.6));
+}
+
+.nav-brand {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .brand-name {
@@ -124,12 +204,257 @@ body {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    background: linear-gradient(to bottom, #000 0%, #18181b 100%);
+    background-image: url('hero-team-photo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 300-style color overlay - desaturated sepia/bronze tone */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(44, 35, 20, 0.85) 0%,
+        rgba(60, 45, 25, 0.75) 50%,
+        rgba(20, 15, 10, 0.9) 100%
+    );
+    /* Add subtle sepia/bronze tint */
+    background-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Additional atmospheric overlay for depth */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(184, 134, 11, 0.05) 0%,
+        rgba(139, 69, 19, 0.15) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Floating Particles - Dust, Ash, and Embers */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    animation: float-up linear infinite;
+    border-radius: 50%;
+}
+
+/* Dust drifts lazily - mostly horizontal with slight vertical */
+@keyframes drift-dust {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.9) rotate(0deg);
+    }
+    10% {
+        opacity: 0.5;
+    }
+    25% {
+        opacity: 0.6;
+        transform: translate(var(--x-drift-1), -12vh) scale(1) rotate(45deg);
+    }
+    50% {
+        opacity: 0.55;
+        transform: translate(var(--x-drift-2), -22vh) scale(0.95) rotate(120deg);
+    }
+    75% {
+        opacity: 0.4;
+        transform: translate(var(--x-drift-3), -35vh) scale(0.85) rotate(220deg);
+    }
+    90% {
+        opacity: 0.2;
+        transform: translate(var(--x-drift-4), -45vh) scale(0.7) rotate(300deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x-drift-1), -55vh) scale(0.6) rotate(360deg);
+    }
+}
+
+/* Ash swirls and tumbles - chaotic movement */
+@keyframes swirl-ash {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.8) rotate(0deg);
+    }
+    10% {
+        opacity: 0.5;
+    }
+    20% {
+        opacity: 0.6;
+        transform: translate(var(--x-drift-1), 5vh) scale(1) rotate(60deg);
+    }
+    40% {
+        opacity: 0.55;
+        transform: translate(var(--x-drift-2), -8vh) scale(0.95) rotate(150deg);
+    }
+    60% {
+        opacity: 0.5;
+        transform: translate(var(--x-drift-3), -25vh) scale(0.85) rotate(250deg);
+    }
+    80% {
+        opacity: 0.3;
+        transform: translate(var(--x-drift-4), -42vh) scale(0.7) rotate(340deg);
+    }
+    90% {
+        opacity: 0.15;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x-drift-1), -60vh) scale(0.5) rotate(420deg);
+    }
+}
+
+/* Embers rise with heat, occasionally dropping */
+@keyframes rise-ember {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.9);
+    }
+    10% {
+        opacity: 0.6;
+    }
+    20% {
+        opacity: 0.7;
+        transform: translate(var(--x-drift-1), -18vh) scale(1.05);
+    }
+    40% {
+        opacity: 0.65;
+        transform: translate(var(--x-drift-2), -32vh) scale(1);
+    }
+    60% {
+        opacity: 0.5;
+        transform: translate(var(--x-drift-3), -50vh) scale(0.85);
+    }
+    80% {
+        opacity: 0.3;
+        transform: translate(var(--x-drift-4), -72vh) scale(0.7);
+    }
+    90% {
+        opacity: 0.15;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x-drift-1), -95vh) scale(0.5);
+    }
+}
+
+/* Pale dust hangs in air, barely moving */
+@keyframes linger-pale {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.9) rotate(0deg);
+    }
+    10% {
+        opacity: 0.4;
+    }
+    30% {
+        opacity: 0.5;
+        transform: translate(var(--x-drift-1), -10vh) scale(1) rotate(35deg);
+    }
+    60% {
+        opacity: 0.45;
+        transform: translate(var(--x-drift-2), -16vh) scale(1.02) rotate(70deg);
+    }
+    85% {
+        opacity: 0.25;
+        transform: translate(var(--x-drift-3), -25vh) scale(0.95) rotate(105deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x-drift-4), -35vh) scale(0.85) rotate(140deg);
+    }
+}
+
+/* Dust particles - small, matte, irregular */
+.particle.dust {
+    background: radial-gradient(circle at 40% 40%, rgba(139, 109, 80, 0.45), rgba(100, 80, 60, 0.2));
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+    animation: drift-dust ease-in-out infinite;
+}
+
+/* Ash particles - darker, more irregular */
+.particle.ash {
+    background: radial-gradient(circle at 35% 35%, rgba(100, 75, 50, 0.5), rgba(60, 45, 30, 0.25));
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
+    animation: swirl-ash ease-in-out infinite;
+}
+
+/* Ember particles - warmer tones, slight glow */
+.particle.ember {
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgba(200, 150, 50, 0.7),
+        rgba(139, 90, 40, 0.35)
+    );
+    box-shadow: 
+        inset 1px 1px 2px rgba(255, 200, 100, 0.3),
+        0 0 4px rgba(184, 134, 11, 0.2);
+    animation: rise-ember ease-in-out infinite;
+}
+
+/* Yellow dust - very pale, desaturated */
+.particle.pale {
+    background: radial-gradient(circle at 45% 45%, rgba(180, 160, 120, 0.4), rgba(140, 120, 90, 0.15));
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.15);
+    animation: linger-pale ease-in-out infinite;
+}
+
+/* Size variations for realistic dust cloud */
+.particle.tiny {
+    border-radius: 40%;
+    filter: blur(0.5px);
+}
+
+.particle.small {
+    border-radius: 45%;
+    filter: blur(0.75px);
+}
+
+.particle.medium {
+    border-radius: 50%;
+    filter: blur(1.5px);
+}
+
+.particle.large {
+    border-radius: 30%;
+    filter: blur(2.5px);
 }
 
 .hero-content {
     max-width: 42rem;
+    position: relative;
+    z-index: 1;
 }
 
 .badge {
@@ -161,10 +486,34 @@ body {
 }
 
 .hero-description {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     color: #a1a1aa;
-    max-width: 32rem;
+    max-width: 36rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-bottom: 2rem;
+    max-width: 36rem;
+}
+
+.hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #d4d4d8;
+    font-size: 1rem;
+}
+
+.hero-feature svg {
+    width: 20px;
+    height: 20px;
+    color: #dc2626;
+    flex-shrink: 0;
 }
 
 .hero-buttons {
@@ -179,6 +528,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     padding-top: 2rem;
+    padding-bottom: 3rem;
     border-top: 1px solid #27272a;
 }
 
@@ -197,34 +547,418 @@ body {
 /* Sections */
 .section-dark {
     background-color: #000;
-    padding: 4rem 0;
+    padding: 6rem 0;
 }
 
-.section-mission {
-    background-color: #09090b;
-    padding: 4rem 0;
+.section-about {
+    background: linear-gradient(to bottom, rgba(20, 15, 10, 0.95) 0%, #000 50%);
+    padding: 6rem 0;
+}
+
+.about-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-content {
     text-align: center;
-    border-top: 1px solid #27272a;
-    border-bottom: 1px solid #27272a;
+}
+
+.about-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #fff, #a1a1aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.about-text {
+    font-size: 1.25rem;
+    color: #d4d4d8;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto 3rem;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.about-feature-card {
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%);
+    border: 1px solid #27272a;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #dc2626, #ca8a04);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.about-feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.about-feature-card:hover {
+    border-color: #dc2626;
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.2);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(202, 138, 4, 0.1));
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.feature-icon svg {
+    width: 30px;
+    height: 30px;
+    color: #dc2626;
+}
+
+.about-feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #fff;
+}
+
+.about-feature-card p {
+    color: #a1a1aa;
+    line-height: 1.6;
+    font-size: 0.9375rem;
 }
 
 .section-gallery {
-    background-color: #09090b;
-    padding: 4rem 0;
-    border-top: 1px solid #27272a;
-    border-bottom: 1px solid #27272a;
+    background: #000;
+    padding: 6rem 0;
+    position: relative;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #71717a;
+    font-size: 1.125rem;
+    margin-top: -1rem;
+    margin-bottom: 3rem;
+    font-style: italic;
+}
+
+/* Swiper Gallery Styles */
+.gallerySwiper {
+    width: 100%;
+    padding: 2rem 0 4rem;
+}
+
+.gallery-slide {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #27272a;
+    aspect-ratio: 4/3;
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%);
+}
+
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-slide:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    padding: 2rem 1.5rem 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-slide:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-caption {
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Swiper Navigation */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #dc2626;
+    background: rgba(0, 0, 0, 0.8);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #27272a;
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 1.25rem;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: #dc2626;
+}
+
+.swiper-pagination-bullet {
+    background: #71717a;
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background: #dc2626;
+}
+
+/* Pricing Swiper - Desktop as Grid */
+.pricingSwiper {
+    overflow: visible;
+}
+
+.pricingSwiper .swiper-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.pricingSwiper .swiper-slide {
+    height: auto;
+    width: auto;
+}
+
+.pricingSwiper .swiper-pagination {
+    display: none;
+}
+
+.pricing-pagination {
+    margin-top: 2rem;
 }
 
 .section-arena {
     background-color: #09090b;
-    padding: 3rem 0;
+    padding: 6rem 0;
     border-top: 1px solid #27272a;
     border-bottom: 1px solid #27272a;
 }
 
 .section-pricing {
-    background-color: #000;
+    background: linear-gradient(to bottom, #000 0%, #09090b 100%);
     padding: 6rem 0;
+    position: relative;
+}
+
+.pricing-main-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #fff, #a1a1aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pricing-subtitle {
+    text-align: center;
+    color: #71717a;
+    font-size: 1.125rem;
+    margin-bottom: 3rem;
+}
+
+.pricing-category-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    color: #a1a1aa;
+    margin: 3rem 0 2rem;
+    letter-spacing: 0.05em;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pricing-card {
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.8) 0%, rgba(9, 9, 11, 0.9) 100%);
+    border: 1px solid #27272a;
+    border-radius: 1.25rem;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.pricing-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #27272a, transparent);
+    transition: all 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(220, 38, 38, 0.3);
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.15);
+}
+
+.pricing-card:hover::before {
+    background: linear-gradient(to right, #dc2626, #ca8a04);
+}
+
+.pricing-card-popular {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.3), 0 20px 60px rgba(220, 38, 38, 0.2);
+    transform: scale(1.05);
+}
+
+.pricing-card-popular::before {
+    background: linear-gradient(to right, #dc2626, #ca8a04);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(135deg, #dc2626, #ca8a04);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.375rem 0.875rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+.pricing-header h3 {
+    font-size: 1.75rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.pricing-session {
+    color: #71717a;
+    font-size: 0.9375rem;
+}
+
+.pricing-price {
+    margin: 2rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #27272a;
+    border-bottom: 1px solid #27272a;
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #dc2626, #ca8a04);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.save {
+    display: inline-block;
+    margin-left: 1rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.pricing-features {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.pricing-features li {
+    color: #d4d4d8;
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.btn-pricing {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(39, 39, 42, 0.8), rgba(24, 24, 27, 0.6));
+    color: #fff;
+    border: 1px solid #27272a;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-pricing:hover {
+    background: linear-gradient(135deg, #3f3f46, #27272a);
+    border-color: #dc2626;
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.3);
+}
+
+.btn-pricing-popular {
+    background: linear-gradient(135deg, #dc2626, #ca8a04);
+    color: #fff;
+    border: none;
+}
+
+.btn-pricing-popular:hover {
+    background: linear-gradient(135deg, #ef4444, #eab308);
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.5);
+    transform: translateY(-2px);
 }
 
 .section-title {
@@ -233,6 +967,118 @@ body {
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 2rem;
+    background: linear-gradient(135deg, #fff 0%, #d4d4d8 50%, #fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #a1a1aa;
+    font-size: 1.125rem;
+    margin-top: -1rem;
+    margin-bottom: 3rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+/* Community Section Titles */
+.community-badge {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(202, 138, 4, 0.1));
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 2rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.community-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, #d4d4d8 50%, #fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+}
+
+/* Pricing Section Titles */
+.pricing-badge {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(202, 138, 4, 0.1));
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 2rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.pricing-main-title {
+    font-size: 2.75rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #fff 0%, #dc2626 50%, #ca8a04 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+}
+
+.pricing-subtitle {
+    text-align: center;
+    color: #a1a1aa;
+    font-size: 1.25rem;
+    margin-bottom: 4rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.pricing-category-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    color: #71717a;
+    margin: 4rem 0 2.5rem;
+    letter-spacing: 0.1em;
+    position: relative;
+}
+
+.pricing-category-title::before,
+.pricing-category-title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #27272a, transparent);
+}
+
+.pricing-category-title::before {
+    right: calc(100% + 1rem);
+}
+
+.pricing-category-title::after {
+    left: calc(100% + 1rem);
 }
 
 /* Video Section */
@@ -281,55 +1127,58 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%);
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid #27272a;
 }
 
 .story-content p {
-    color: #d4d4d8;
-    line-height: 1.75;
-}
-
-/* Gallery */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.gallery-item {
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 0.5rem;
-    border: 1px solid #27272a;
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.gallery-item:hover {
-    border-color: #dc2626;
-    transform: scale(1.02);
-}
-
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.gallery-note {
-    text-align: center;
-    color: #71717a;
-    font-size: 0.875rem;
-    margin-top: 1.5rem;
+    color: #e4e4e7;
+    line-height: 1.8;
+    font-size: 1.0625rem;
 }
 
 /* Arena Project */
+.section-arena {
+    background: linear-gradient(to bottom, #09090b 0%, #000 100%);
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-arena::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
 .arena-card {
-    background-color: #18181b;
-    border: 1px solid #27272a;
-    border-radius: 0.5rem;
-    padding: 2rem;
-    max-width: 56rem;
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.8) 0%, rgba(9, 9, 11, 0.9) 100%);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    max-width: 900px;
     margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.arena-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #dc2626, #ca8a04);
 }
 
 .arena-header {
@@ -337,38 +1186,48 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
 .arena-info {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: flex-start;
 }
 
 .arena-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: #dc2626;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(202, 138, 4, 0.1));
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
 }
 
 .arena-icon svg {
-    width: 100%;
-    height: 100%;
+    width: 30px;
+    height: 30px;
+    color: #dc2626;
 }
 
 .arena-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 900;
     text-transform: uppercase;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, #d4d4d8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .arena-subtitle {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: #a1a1aa;
+    line-height: 1.6;
 }
 
 .arena-funding {
@@ -376,32 +1235,35 @@ body {
 }
 
 .funding-amount {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 900;
     color: #dc2626;
+    text-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
 }
 
 .funding-goal {
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: #71717a;
 }
 
 .arena-progress {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .progress-bar {
     width: 100%;
-    height: 0.5rem;
+    height: 12px;
     background-color: #27272a;
     border-radius: 9999px;
     overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .progress-fill {
     height: 100%;
     background: linear-gradient(to right, #dc2626, #ca8a04);
     transition: width 1s ease-out;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
 }
 
 /* Multi-colored progress bar */
@@ -414,46 +1276,70 @@ body {
 .progress-segment {
     height: 100%;
     transition: width 1s ease-out;
+    position: relative;
+}
+
+.progress-segment::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
 }
 
 .progress-segment.recupo {
     background: linear-gradient(to right, #dc2626, #ef4444);
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
 }
 
 .progress-segment.blind {
     background: linear-gradient(to right, #3b82f6, #60a5fa);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
 /* Charity breakdown */
 .charity-breakdown {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    margin-top: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
 }
 
 .charity-item {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: flex-start;
-    padding: 1rem;
-    background-color: rgba(39, 39, 42, 0.5);
-    border-radius: 0.375rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(39, 39, 42, 0.6) 0%, rgba(24, 24, 27, 0.4) 100%);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(39, 39, 42, 0.8);
+    transition: all 0.3s ease;
+}
+
+.charity-item:hover {
+    border-color: rgba(220, 38, 38, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .charity-color {
-    width: 4px;
-    min-width: 4px;
-    height: 60px;
-    border-radius: 2px;
+    width: 5px;
+    min-width: 5px;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 0 0 10px currentColor;
 }
 
 .charity-color.recupo-color {
     background: linear-gradient(to bottom, #dc2626, #ef4444);
+    color: rgba(220, 38, 38, 0.5);
 }
 
 .charity-color.blind-color {
     background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+    color: rgba(59, 130, 246, 0.5);
 }
 
 .charity-details {
@@ -461,17 +1347,25 @@ body {
 }
 
 .charity-name {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
+    color: #fff;
 }
 
 .charity-amount {
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
+    color: #dc2626;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.charity-description {
     color: #a1a1aa;
-    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
 }
 
 .charity-description {
@@ -509,109 +1403,6 @@ body {
     margin: 3rem 0 2rem;
 }
 
-.pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.pricing-card {
-    background-color: #18181b;
-    border: 1px solid #27272a;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    position: relative;
-    transition: all 0.3s;
-}
-
-.pricing-card:hover {
-    transform: translateY(-4px);
-}
-
-.pricing-card-popular {
-    border-color: #dc2626;
-    box-shadow: 0 0 0 1px #dc2626;
-}
-
-.popular-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #dc2626;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 0.25rem 0.75rem;
-}
-
-.pricing-header h3 {
-    font-size: 1.5rem;
-    font-weight: 900;
-    margin-bottom: 0.5rem;
-}
-
-.pricing-session {
-    color: #71717a;
-    font-size: 0.875rem;
-}
-
-.pricing-price {
-    margin: 1.5rem 0;
-}
-
-.price {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: #dc2626;
-}
-
-.save {
-    display: inline-block;
-    margin-left: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: #22c55e;
-}
-
-.pricing-features {
-    list-style: none;
-    margin-bottom: 1.5rem;
-}
-
-.pricing-features li {
-    color: #a1a1aa;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-}
-
-.btn-pricing {
-    width: 100%;
-    background-color: #27272a;
-    color: #fff;
-    border: none;
-    padding: 0.75rem;
-    font-weight: 700;
-    font-size: 0.875rem;
-    cursor: pointer;
-    border-radius: 0.375rem;
-    transition: all 0.2s;
-}
-
-.btn-pricing:hover {
-    background-color: #3f3f46;
-}
-
-.btn-pricing-popular {
-    background-color: #fff;
-    color: #000;
-}
-
-.btn-pricing-popular:hover {
-    background-color: #e4e4e7;
-}
-
 /* Footer */
 .footer {
     background-color: #09090b;
@@ -627,7 +1418,6 @@ body {
     width: 48px;
     height: 48px;
     margin: 0 auto 1rem;
-    color: #dc2626;
 }
 
 .footer-text {
@@ -777,8 +1567,59 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+    
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.98);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 80px 2rem 2rem;
+        transition: right 0.3s ease;
+        border-left: 1px solid #27272a;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+    }
+    
+    .nav-links a {
+        font-size: 1.125rem;
+        padding: 0.75rem 0;
+        display: block;
+        width: 100%;
+    }
+    
+    .nav-menu .btn-primary {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    .hero {
+        min-height: auto;
+        padding: 100px 0 60px;
+    }
+    
     .hero-title {
         font-size: 2rem;
+        line-height: 1.1;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
     }
     
     .hero-buttons {
@@ -794,6 +1635,14 @@ body {
         gap: 1rem;
     }
     
+    .stat-number {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+    }
+    
     .section-title {
         font-size: 1.75rem;
     }
@@ -804,22 +1653,162 @@ body {
     
     .arena-header {
         flex-direction: column;
+        gap: 1rem;
     }
     
     .arena-funding {
         text-align: left;
     }
     
+    .charity-item {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .charity-color {
+        width: 100%;
+        height: 4px;
+    }
+    
+    /* Mobile: Activate pricing swiper */
+    .pricingSwiper .swiper-wrapper {
+        display: flex !important;
+        flex-wrap: nowrap;
+    }
+    
+    .pricingSwiper .swiper-slide {
+        width: 85% !important;
+        flex-shrink: 0;
+    }
+    
+    .pricingSwiper .swiper-pagination {
+        display: block !important;
+    }
+    
     .pricing-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Mobile typography improvements */
+    .section-title {
+        font-size: 1.875rem;
+        line-height: 1.2;
+    }
+    
+    .pricing-main-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .community-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .pricing-category-title {
+        font-size: 1rem;
+        margin: 3rem 0 2rem;
+    }
+    
+    .pricing-category-title::before,
+    .pricing-category-title::after {
+        width: 40px;
+    }
+    
+    /* Mobile spacing improvements */
+    .about-features {
+        gap: 1.5rem;
+    }
+    
+    .about-feature-card {
+        padding: 1.5rem;
+    }
+    
+    .arena-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .charity-breakdown {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Gallery mobile improvements */
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 1rem;
+    }
+    
+    /* Mobile story section */
+    .story-content {
+        padding: 1.5rem;
+    }
+    
+    .story-content p {
+        font-size: 1rem;
     }
     
     .brand-text {
         display: none;
     }
+    
+    .video-container {
+        margin: 0 -1rem;
+        border-radius: 0;
+    }
+    
+    .story-image img {
+        border-radius: 0;
+    }
+    
+    /* Improve touch targets on mobile */
+    button {
+        min-height: 44px;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Mobile pricing card enhancements */
+    .pricing-card {
+        margin: 0 0.5rem;
+    }
+    
+    .pricing-card-popular {
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
 }
 
 @media (min-width: 640px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+}
+
+@media (min-width: 769px) {
     .hero-title {
         font-size: 4rem;
     }
@@ -838,28 +1827,68 @@ body {
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <img class="logo" src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/spartan-helmet.svg" alt="Spartan Helmet">
+                <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #dc2626;">
+                    <path fill="currentColor" d="M253.714 20.358c-8.79.075-17.448.82-25.89 2.308c-46.55 8.208-89.423 26.157-121.225 52.065c-31.803 25.908-52.572 59.39-56.316 100.053l-.004.04l-.004.04c-8.45 83.885 39.397 152.37 65.604 181.553c5.21 5.804 7.064 13.574 6.533 20.862s-3.04 14.494-6.598 21.838c-7.114 14.688-18.703 30.06-31.03 44.457c-13.957 16.303-27.375 29.703-37.75 39.627c7.203-1.214 14.764-4.37 22.67-9.368c14.66-9.265 29.554-24.475 42.097-41.298c12.543-16.824 22.807-35.28 28.802-50.586c2.998-7.654 4.912-14.54 5.614-19.72c.7-5.178-.177-8.39-.354-8.687c-15.34-25.73-31.257-52.027-40.687-79.112s-12.2-55.565-.073-83.35c25.223-57.79 78.02-85.085 130.772-89.605c52.61-4.508 105.963 12.396 136.545 44.71l23.292 22.474l69.254-41.47c-20.34-26.314-55.49-55.33-96.24-76.257c-33.546-17.226-70.702-28.978-106.18-30.428q-4.436-.182-8.832-.144zM372.42 146.184l-.058-.057l.31.313c-.083-.087-.17-.17-.25-.256zM244.814 118.95a167 167 0 0 0-7.4.457c-3.562.305-7.11.73-10.64 1.255l9.628 45.077a117 117 0 0 1 17.646-3.564l-9.233-43.226zm43.85 3.658c-4.866 12.845-7.33 25.916-6.978 39.04c6.034.48 12.086 1.335 18.12 2.557c-.868-12.19 1.306-24.43 6.362-36.98a173 173 0 0 0-17.504-4.617m-106.672 11.79c-6.112 3.028-12 6.54-17.612 10.532c17.55 8.862 29.7 22.763 34.715 39.594a107.4 107.4 0 0 1 15.564-10.063c-6.122-16.257-17.577-30.086-32.666-40.063zm88.136 44.796q-1.734-.003-3.457.047q-4.014.113-7.952.502c-41.993 4.176-77.31 30.258-87.475 90.07c-2.198 12.94 4.293 42.822 12.246 67.66c7.952 24.836 16.634 45.517 16.634 45.517l.504 1.198l.143 1.295c1.96 17.7-9.11 34.967-21.212 52.26c-8.036 11.486-16.43 22.104-23.97 31.72c24-1.35 45.963-11.985 67.177-30.947c-.124-.5-.17-.71-.313-1.297c-.866-3.594-1.955-8.697-1.687-14.68c.446-9.983 5.674-21.958 18.818-31.868c-24.577-35.02-28.898-78.757-24.06-115.027l.886-6.65l6.626-1.05c58.715-9.29 97.246-28.81 139.34-54.593c-27.566-21.88-61.198-34.115-92.25-34.158zm120.197 37.84c-48.424 30.517-91.56 55.67-157.556 67.35c-3.253 33.408 2.427 71.84 25.226 100.798c12.607.61 23.264 6.977 29.904 16.184c6.747 9.353 9.946 21.162 10.83 33.628c23.288 21.426 62.97 39.024 97.764 56.655c-3.17-39.444-.296-76.34-14.538-114.11l-62.842-25.3l-.062-.027c-14.313-6.018-23.332-13.792-26.512-24.03c-3.18-10.236-.874-19.966 1.188-31.064l2.2-11.852l10.74 5.476c23.407 11.94 51.394 20.52 77.548 20.065l6.582-.116l2.103 6.238c10.593 31.436 12.912 56.612 15.752 82.203l7.787 3.113c4.126-29.38 1.912-68.686-3.862-104.425c-5.463-33.817-14.72-65.03-22.252-80.788zM223.397 441.148c-.01.444.094.455.01.04c-.002-.008-.01-.033-.01-.04"/>
+                </svg>
                 <div class="brand-text">
                     <div class="brand-name">PARKING LOT</div>
                     <div class="brand-subtitle">POWERLIFTERS</div>
                 </div>
             </div>
-            <button class="btn-primary" onclick="scrollToSection('pricing')">BOOK NOW</button>
+            <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#home" class="active" onclick="closeMenu()">Home</a></li>
+                    <li><a href="#about" onclick="closeMenu()">About</a></li>
+                    <li><a href="#video" onclick="closeMenu()">See Us Train</a></li>
+                    <li><a href="#story" onclick="closeMenu()">Our Story</a></li>
+                    <li><a href="#community" onclick="closeMenu()">Community</a></li>
+                    <li><a href="#pricing" onclick="closeMenu()">Pricing</a></li>
+                </ul>
+                <button class="btn-primary" onclick="scrollToSection('pricing'); closeMenu()">BOOK NOW</button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section id="home" class="hero">
+        <!-- Floating Particles -->
+        <div class="particles" id="particles"></div>
+        
         <div class="container">
             <div class="hero-content">
-                <span class="badge">Mobile Training</span>
+                <span class="badge">Mobile Powerlifting Training</span>
                 <h1 class="hero-title">
                     ELITE POWERLIFTING,<br>
                     <span class="gradient-text">WHEREVER YOU ARE</span>
                 </h1>
                 <p class="hero-description">
-                    Professional powerlifting equipment and coaching delivered directly to your location. No gym membership required.
+                    We bring professional powerlifting equipment and expert coaching directly to your location. Train in your driveway, parking lot, or backyard—no gym membership required.
                 </p>
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/>
+                        </svg>
+                        <span>Full powerlifting equipment setup at your location</span>
+                    </div>
+                    <div class="hero-feature">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <span>Expert coaching from experienced powerlifters</span>
+                    </div>
+                    <div class="hero-feature">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <span>Flexible scheduling - train on your time</span>
+                    </div>
+                </div>
                 <div class="hero-buttons">
                     <button class="btn-primary btn-lg" onclick="scrollToSection('pricing')">
                         VIEW PACKAGES
@@ -867,7 +1896,7 @@ body {
                             <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>
                     </button>
-                    <button class="btn-secondary btn-lg">LEARN MORE</button>
+                    <button class="btn-secondary btn-lg" onclick="scrollToSection('about')">LEARN MORE</button>
                 </div>
                 <div class="hero-stats">
                     <div class="stat">
@@ -888,12 +1917,12 @@ body {
     </section>
 
     <!-- Video Section -->
-    <section class="section-dark">
+    <section id="video" class="section-dark">
         <div class="container">
             <h2 class="section-title">SEE US IN ACTION</h2>
             <div class="video-container">
                 <video controls poster="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=675&fit=crop">
-                    <source src="/path-to-your-video.mp4" type="video/mp4">
+                    <!-- Add your video source here: <source src="your-video.mp4" type="video/mp4"> -->
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -901,22 +1930,52 @@ body {
         </div>
     </section>
 
-    <!-- Mission Section -->
-    <section class="section-mission">
+    <!-- About Section -->
+    <section id="about" class="section-about">
         <div class="container">
-            <span class="badge">Our Mission</span>
-            <h2 class="mission-title">EMPOWERING STRENGTH, ONE REP AT A TIME</h2>
-            <p class="mission-text">
-                We believe everyone deserves access to elite powerlifting training, regardless of location. 
-                Our mission is to bring professional-grade equipment and expert coaching directly to you, 
-                eliminating barriers and making strength accessible to all. We're not just building stronger 
-                bodies—we're building a stronger community.
-            </p>
+            <div class="about-grid">
+                <div class="about-content">
+                    <span class="badge">About Us</span>
+                    <h2 class="about-title">ELITE POWERLIFTING AT YOUR LOCATION</h2>
+                    <p class="about-text">
+                        Professional equipment. Expert coaching. Your location. We eliminate every barrier between you and elite strength training.
+                    </p>
+                    <div class="about-features">
+                        <div class="about-feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 9.99 9.99 6.5 17.5zm5.5-6.6c.61 0 1.1.49 1.1 1.1s-.49 1.1-1.1 1.1-1.1-.49-1.1-1.1.49-1.1 1.1-1.1z"/>
+                                </svg>
+                            </div>
+                            <h3>Mobile Training</h3>
+                            <p>Full powerlifting setup brought to your driveway, parking lot, or backyard</p>
+                        </div>
+                        <div class="about-feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29z"/>
+                                </svg>
+                            </div>
+                            <h3>Professional Equipment</h3>
+                            <p>Competition-grade bars, plates, racks, and platforms</p>
+                        </div>
+                        <div class="about-feature-card">
+                            <div class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                            </div>
+                            <h3>Expert Coaching</h3>
+                            <p>Certified trainers with years of competitive powerlifting experience</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Story Section -->
-    <section class="section-dark">
+    <section id="story" class="section-dark">
         <div class="container story-container">
             <h2 class="section-title">OUR STORY</h2>
             <div class="story-content">
@@ -944,35 +2003,71 @@ body {
     <section class="section-gallery">
         <div class="container">
             <h2 class="section-title">GALLERY</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=600&fit=crop" alt="Training session 1">
+            <p class="section-subtitle">See our warriors in action</p>
+            
+            <div class="swiper gallerySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="gallery-slide">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop" alt="Training session 1">
+                            <div class="gallery-overlay">
+                                <span class="gallery-caption">Outdoor Training</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-slide">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop" alt="Training session 2">
+                            <div class="gallery-overlay">
+                                <span class="gallery-caption">Deadlift Focus</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-slide">
+                            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&h=600&fit=crop" alt="Training session 3">
+                            <div class="gallery-overlay">
+                                <span class="gallery-caption">Group Sessions</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-slide">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=800&h=600&fit=crop" alt="Training session 4">
+                            <div class="gallery-overlay">
+                                <span class="gallery-caption">Squat Technique</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-slide">
+                            <img src="https://images.unsplash.com/photo-1517836477-4ff2c1037d96?w=800&h=600&fit=crop" alt="Training session 5">
+                            <div class="gallery-overlay">
+                                <span class="gallery-caption">Bench Press</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gallery-slide">
+                            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=800&h=600&fit=crop" alt="Training session 6">
+                            <div class="gallery-overlay">
+                                <span class="gallery-caption">Mobile Setup</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop" alt="Training session 2">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop" alt="Training session 3">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=600&fit=crop" alt="Training session 4">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1517836477-4ff2c1037d96?w=600&h=600&fit=crop" alt="Training session 5">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&h=600&fit=crop" alt="Training session 6">
-                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
             </div>
-            <p class="gallery-note">Replace these placeholder images with your own training photos</p>
         </div>
     </section>
 
     <!-- Community Support Section -->
-    <section class="section-arena">
+    <section id="community" class="section-arena">
         <div class="container">
-            <span class="badge" style="display: block; text-align: center; margin-bottom: 1rem;">Giving Back</span>
-            <h2 class="section-title" style="margin-bottom: 3rem;">SUPPORTING OUR COMMUNITY</h2>
+            <span class="community-badge">Giving Back</span>
+            <h2 class="community-title">SUPPORTING OUR COMMUNITY</h2>
             <!-- Charitable Giving -->
             <div class="arena-card">
                 <div class="arena-header">
@@ -1039,124 +2134,142 @@ body {
     <!-- Pricing Section -->
     <section id="pricing" class="section-pricing">
         <div class="container">
-            <span class="badge">Pricing</span>
+            <span class="pricing-badge">Pricing</span>
             <h2 class="pricing-main-title">CHOOSE YOUR PACKAGE</h2>
             <p class="pricing-subtitle">Professional training at your location</p>
 
             <!-- Exclusive Pricing -->
             <h3 class="pricing-category-title">EXCLUSIVE PRICING - 1 ON 1 TRAINING</h3>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>1 on 1</h3>
-                        <p class="pricing-session">1 Session</p>
+            <div class="swiper pricingSwiper pricingSwiper-exclusive">
+                <div class="swiper-wrapper pricing-grid">
+                    <div class="swiper-slide">
+                        <div class="pricing-card">
+                            <div class="pricing-header">
+                                <h3>1 on 1</h3>
+                                <p class="pricing-session">1 Session</p>
+                            </div>
+                            <div class="pricing-price">
+                                <span class="price">$100</span>
+                            </div>
+                            <ul class="pricing-features">
+                                <li>• 1 Session</li>
+                                <li>• All Equipment</li>
+                                <li>• Expert Coaching</li>
+                                <li>• Flexible Scheduling</li>
+                            </ul>
+                            <button class="btn-pricing" onclick="openBooking('1 on 1', 100)">SELECT</button>
+                        </div>
                     </div>
-                    <div class="pricing-price">
-                        <span class="price">$100</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>• 1 Session</li>
-                        <li>• All Equipment</li>
-                        <li>• Expert Coaching</li>
-                        <li>• Flexible Scheduling</li>
-                    </ul>
-                    <button class="btn-pricing" onclick="openBooking('1 on 1', 100)">SELECT</button>
-                </div>
 
-                <div class="pricing-card pricing-card-popular">
-                    <div class="popular-badge">BEST VALUE</div>
-                    <div class="pricing-header">
-                        <h3>3-Pack</h3>
-                        <p class="pricing-session">3 Sessions</p>
+                    <div class="swiper-slide">
+                        <div class="pricing-card pricing-card-popular">
+                            <div class="popular-badge">BEST VALUE</div>
+                            <div class="pricing-header">
+                                <h3>3-Pack</h3>
+                                <p class="pricing-session">3 Sessions</p>
+                            </div>
+                            <div class="pricing-price">
+                                <span class="price">$200</span>
+                                <span class="save">Save $100</span>
+                            </div>
+                            <ul class="pricing-features">
+                                <li>• 3 Sessions</li>
+                                <li>• All Equipment</li>
+                                <li>• Expert Coaching</li>
+                                <li>• Flexible Scheduling</li>
+                            </ul>
+                            <button class="btn-pricing btn-pricing-popular" onclick="openBooking('3-Pack', 200)">SELECT</button>
+                        </div>
                     </div>
-                    <div class="pricing-price">
-                        <span class="price">$200</span>
-                        <span class="save">Save $100</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>• 3 Sessions</li>
-                        <li>• All Equipment</li>
-                        <li>• Expert Coaching</li>
-                        <li>• Flexible Scheduling</li>
-                    </ul>
-                    <button class="btn-pricing btn-pricing-popular" onclick="openBooking('3-Pack', 200)">SELECT</button>
-                </div>
 
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>5-Pack</h3>
-                        <p class="pricing-session">5 Sessions</p>
+                    <div class="swiper-slide">
+                        <div class="pricing-card">
+                            <div class="pricing-header">
+                                <h3>5-Pack</h3>
+                                <p class="pricing-session">5 Sessions</p>
+                            </div>
+                            <div class="pricing-price">
+                                <span class="price">$300</span>
+                                <span class="save">Save $200</span>
+                            </div>
+                            <ul class="pricing-features">
+                                <li>• 5 Sessions</li>
+                                <li>• All Equipment</li>
+                                <li>• Expert Coaching</li>
+                                <li>• Flexible Scheduling</li>
+                            </ul>
+                            <button class="btn-pricing" onclick="openBooking('5-Pack', 300)">SELECT</button>
+                        </div>
                     </div>
-                    <div class="pricing-price">
-                        <span class="price">$300</span>
-                        <span class="save">Save $200</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>• 5 Sessions</li>
-                        <li>• All Equipment</li>
-                        <li>• Expert Coaching</li>
-                        <li>• Flexible Scheduling</li>
-                    </ul>
-                    <button class="btn-pricing" onclick="openBooking('5-Pack', 300)">SELECT</button>
                 </div>
+                <div class="swiper-pagination pricing-pagination"></div>
             </div>
 
             <!-- Group Pricing -->
             <h3 class="pricing-category-title">GROUP PRICING</h3>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>5 Sessions</h3>
-                        <p class="pricing-session">Group Training</p>
+            <div class="swiper pricingSwiper pricingSwiper-group">
+                <div class="swiper-wrapper pricing-grid">
+                    <div class="swiper-slide">
+                        <div class="pricing-card">
+                            <div class="pricing-header">
+                                <h3>5 Sessions</h3>
+                                <p class="pricing-session">Group Training</p>
+                            </div>
+                            <div class="pricing-price">
+                                <span class="price">$150</span>
+                            </div>
+                            <ul class="pricing-features">
+                                <li>• Group Training</li>
+                                <li>• All Equipment</li>
+                                <li>• Expert Coaching</li>
+                                <li>• Group Atmosphere</li>
+                            </ul>
+                            <button class="btn-pricing" onclick="openBooking('5 Sessions Group', 150)">SELECT</button>
+                        </div>
                     </div>
-                    <div class="pricing-price">
-                        <span class="price">$150</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>• Group Training</li>
-                        <li>• All Equipment</li>
-                        <li>• Expert Coaching</li>
-                        <li>• Group Atmosphere</li>
-                    </ul>
-                    <button class="btn-pricing" onclick="openBooking('5 Sessions Group', 150)">SELECT</button>
-                </div>
 
-                <div class="pricing-card pricing-card-popular">
-                    <div class="popular-badge">BEST VALUE</div>
-                    <div class="pricing-header">
-                        <h3>10 Sessions</h3>
-                        <p class="pricing-session">Group Training</p>
+                    <div class="swiper-slide">
+                        <div class="pricing-card pricing-card-popular">
+                            <div class="popular-badge">BEST VALUE</div>
+                            <div class="pricing-header">
+                                <h3>10 Sessions</h3>
+                                <p class="pricing-session">Group Training</p>
+                            </div>
+                            <div class="pricing-price">
+                                <span class="price">$250</span>
+                                <span class="save">Save $50</span>
+                            </div>
+                            <ul class="pricing-features">
+                                <li>• Group Training</li>
+                                <li>• All Equipment</li>
+                                <li>• Expert Coaching</li>
+                                <li>• Group Atmosphere</li>
+                            </ul>
+                            <button class="btn-pricing btn-pricing-popular" onclick="openBooking('10 Sessions Group', 250)">SELECT</button>
+                        </div>
                     </div>
-                    <div class="pricing-price">
-                        <span class="price">$250</span>
-                        <span class="save">Save $50</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>• Group Training</li>
-                        <li>• All Equipment</li>
-                        <li>• Expert Coaching</li>
-                        <li>• Group Atmosphere</li>
-                    </ul>
-                    <button class="btn-pricing btn-pricing-popular" onclick="openBooking('10 Sessions Group', 250)">SELECT</button>
-                </div>
 
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>20 Sessions</h3>
-                        <p class="pricing-session">Group Training</p>
+                    <div class="swiper-slide">
+                        <div class="pricing-card">
+                            <div class="pricing-header">
+                                <h3>20 Sessions</h3>
+                                <p class="pricing-session">Group Training</p>
+                            </div>
+                            <div class="pricing-price">
+                                <span class="price">$400</span>
+                                <span class="save">Save $200</span>
+                            </div>
+                            <ul class="pricing-features">
+                                <li>• Group Training</li>
+                                <li>• All Equipment</li>
+                                <li>• Expert Coaching</li>
+                                <li>• Group Atmosphere</li>
+                            </ul>
+                            <button class="btn-pricing" onclick="openBooking('20 Sessions Group', 400)">SELECT</button>
+                        </div>
                     </div>
-                    <div class="pricing-price">
-                        <span class="price">$400</span>
-                        <span class="save">Save $200</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li>• Group Training</li>
-                        <li>• All Equipment</li>
-                        <li>• Expert Coaching</li>
-                        <li>• Group Atmosphere</li>
-                    </ul>
-                    <button class="btn-pricing" onclick="openBooking('20 Sessions Group', 400)">SELECT</button>
                 </div>
+                <div class="swiper-pagination pricing-pagination"></div>
             </div>
         </div>
     </section>
@@ -1164,7 +2277,9 @@ body {
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-content">
-            <img class="footer-logo" src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/spartan-helmet.svg" alt="Spartan Helmet">
+            <svg class="footer-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="#dc2626" d="M253.714 20.358c-8.79.075-17.448.82-25.89 2.308c-46.55 8.208-89.423 26.157-121.225 52.065c-31.803 25.908-52.572 59.39-56.316 100.053l-.004.04l-.004.04c-8.45 83.885 39.397 152.37 65.604 181.553c5.21 5.804 7.064 13.574 6.533 20.862s-3.04 14.494-6.598 21.838c-7.114 14.688-18.703 30.06-31.03 44.457c-13.957 16.303-27.375 29.703-37.75 39.627c7.203-1.214 14.764-4.37 22.67-9.368c14.66-9.265 29.554-24.475 42.097-41.298c12.543-16.824 22.807-35.28 28.802-50.586c2.998-7.654 4.912-14.54 5.614-19.72c.7-5.178-.177-8.39-.354-8.687c-15.34-25.73-31.257-52.027-40.687-79.112s-12.2-55.565-.073-83.35c25.223-57.79 78.02-85.085 130.772-89.605c52.61-4.508 105.963 12.396 136.545 44.71l23.292 22.474l69.254-41.47c-20.34-26.314-55.49-55.33-96.24-76.257c-33.546-17.226-70.702-28.978-106.18-30.428q-4.436-.182-8.832-.144zM372.42 146.184l-.058-.057l.31.313c-.083-.087-.17-.17-.25-.256zM244.814 118.95a167 167 0 0 0-7.4.457c-3.562.305-7.11.73-10.64 1.255l9.628 45.077a117 117 0 0 1 17.646-3.564l-9.233-43.226zm43.85 3.658c-4.866 12.845-7.33 25.916-6.978 39.04c6.034.48 12.086 1.335 18.12 2.557c-.868-12.19 1.306-24.43 6.362-36.98a173 173 0 0 0-17.504-4.617m-106.672 11.79c-6.112 3.028-12 6.54-17.612 10.532c17.55 8.862 29.7 22.763 34.715 39.594a107.4 107.4 0 0 1 15.564-10.063c-6.122-16.257-17.577-30.086-32.666-40.063zm88.136 44.796q-1.734-.003-3.457.047q-4.014.113-7.952.502c-41.993 4.176-77.31 30.258-87.475 90.07c-2.198 12.94 4.293 42.822 12.246 67.66c7.952 24.836 16.634 45.517 16.634 45.517l.504 1.198l.143 1.295c1.96 17.7-9.11 34.967-21.212 52.26c-8.036 11.486-16.43 22.104-23.97 31.72c24-1.35 45.963-11.985 67.177-30.947c-.124-.5-.17-.71-.313-1.297c-.866-3.594-1.955-8.697-1.687-14.68c.446-9.983 5.674-21.958 18.818-31.868c-24.577-35.02-28.898-78.757-24.06-115.027l.886-6.65l6.626-1.05c58.715-9.29 97.246-28.81 139.34-54.593c-27.566-21.88-61.198-34.115-92.25-34.158zm120.197 37.84c-48.424 30.517-91.56 55.67-157.556 67.35c-3.253 33.408 2.427 71.84 25.226 100.798c12.607.61 23.264 6.977 29.904 16.184c6.747 9.353 9.946 21.162 10.83 33.628c23.288 21.426 62.97 39.024 97.764 56.655c-3.17-39.444-.296-76.34-14.538-114.11l-62.842-25.3l-.062-.027c-14.313-6.018-23.332-13.792-26.512-24.03c-3.18-10.236-.874-19.966 1.188-31.064l2.2-11.852l10.74 5.476c23.407 11.94 51.394 20.52 77.548 20.065l6.582-.116l2.103 6.238c10.593 31.436 12.912 56.612 15.752 82.203l7.787 3.113c4.126-29.38 1.912-68.686-3.862-104.425c-5.463-33.817-14.72-65.03-22.252-80.788zM223.397 441.148c-.01.444.094.455.01.04c-.002-.008-.01-.033-.01-.04"/>
+            </svg>
             <p class="footer-text">© 2025 Parking Lot Powerlifters</p>
         </div>
     </footer>
@@ -1212,13 +2327,165 @@ body {
 </body>
 </html>
     <script>
+// Floating Particles - Dust, ash, and embers
+function createParticles() {
+    const particlesContainer = document.getElementById('particles');
+    if (!particlesContainer) return;
+    
+    const types = ['dust', 'ash', 'ember', 'pale'];
+    const sizes = ['tiny', 'small', 'medium', 'large'];
+    const particleCount = 120; // More particles for realistic dust cloud
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        const typeClass = types[Math.floor(Math.random() * types.length)];
+        const sizeClass = sizes[Math.floor(Math.random() * sizes.length)];
+        particle.className = `particle ${typeClass} ${sizeClass}`;
+        
+        // Very small, irregular particle sizes for dust/ash
+        let size, secondarySize;
+        if (sizeClass === 'large') {
+            size = Math.random() * 7 + 7; // 7-14px
+            secondarySize = size * (0.5 + Math.random() * 0.5); // More irregular
+        } else if (sizeClass === 'medium') {
+            size = Math.random() * 5 + 4; // 4-9px
+            secondarySize = size * (0.5 + Math.random() * 0.5);
+        } else if (sizeClass === 'small') {
+            size = Math.random() * 3 + 2; // 2-5px
+            secondarySize = size * (0.5 + Math.random() * 0.5);
+        } else { // tiny
+            size = Math.random() * 2 + 0.5; // 0.5-2.5px
+            secondarySize = size * (0.5 + Math.random() * 0.5);
+        }
+        particle.style.width = `${size}px`;
+        particle.style.height = `${secondarySize}px`;
+        
+        // Random horizontal position
+        particle.style.left = `${Math.random() * 100}%`;
+        
+        // Start particles throughout the view - most at bottom, some higher up
+        const startBias = Math.random();
+        let startPosition;
+        if (startBias < 0.6) {
+            // 60% start near bottom
+            startPosition = Math.random() * 30 - 10; // -10% to 20%
+        } else {
+            // 40% scattered throughout
+            startPosition = Math.random() * 120 - 20; // -20% to 100%
+        }
+        particle.style.bottom = `${startPosition}%`;
+        
+        // Very varied animation duration for natural dust settling
+        let duration;
+        if (typeClass === 'ember') {
+            duration = Math.random() * 12 + 15; // 15-27s (embers glow longer)
+        } else if (typeClass === 'ash') {
+            duration = Math.random() * 15 + 20; // 20-35s (ash floats slowly)
+        } else if (typeClass === 'pale') {
+            duration = Math.random() * 18 + 30; // 30-48s (lightest dust lingers)
+        } else {
+            duration = Math.random() * 12 + 22; // 22-34s (regular dust)
+        }
+        particle.style.animationDuration = `${duration}s`;
+        
+        // Stagger start times naturally - negative delay makes them appear mid-animation
+        const delay = -(Math.random() * duration);
+        particle.style.animationDelay = `${delay}s`;
+        
+        // Multiple drift points for varied, natural movement patterns
+        const drift1 = (Math.random() - 0.5) * 100; // -50px to 50px
+        const drift2 = (Math.random() - 0.5) * 150; // -75px to 75px  
+        const drift3 = (Math.random() - 0.5) * 120; // -60px to 60px
+        const drift4 = (Math.random() - 0.5) * 80; // -40px to 40px
+        
+        particle.style.setProperty('--x-drift-1', `${drift1}px`);
+        particle.style.setProperty('--x-drift-2', `${drift2}px`);
+        particle.style.setProperty('--x-drift-3', `${drift3}px`);
+        particle.style.setProperty('--x-drift-4', `${drift4}px`);
+        
+        particlesContainer.appendChild(particle);
+    }
+}
+
+// Initialize particles immediately
+createParticles();
+
+// Mobile Menu Toggle
+function toggleMenu() {
+    const navMenu = document.querySelector('.nav-menu');
+    const menuToggle = document.querySelector('.menu-toggle');
+    navMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+    
+    // Prevent body scroll when menu is open
+    if (navMenu.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function closeMenu() {
+    const navMenu = document.querySelector('.nav-menu');
+    const menuToggle = document.querySelector('.menu-toggle');
+    navMenu.classList.remove('active');
+    menuToggle.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(e) {
+    const navMenu = document.querySelector('.nav-menu');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navBrand = document.querySelector('.nav-brand');
+    
+    if (navMenu.classList.contains('active') && 
+        !navMenu.contains(e.target) && 
+        !menuToggle.contains(e.target) &&
+        !navBrand.contains(e.target)) {
+        closeMenu();
+    }
+});
+
 // Smooth scroll to section
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const offset = 80; // Height of fixed navbar
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - offset;
+        
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
     }
+    closeMenu();
 }
+
+// Update active nav link on scroll
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.pageYOffset >= sectionTop - 100) {
+            current = section.getAttribute('id');
+        }
+    });
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', updateActiveNavLink);
 
 // Booking Modal
 let currentPackage = '';
@@ -1302,6 +2569,54 @@ function animateProgressBar() {
 // Check progress bar visibility on scroll
 window.addEventListener('scroll', animateProgressBar);
 window.addEventListener('load', animateProgressBar);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+// Initialize Swiper for Gallery
+const swiper = new Swiper('.gallerySwiper', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+        640: {
+            slidesPerView: 2,
+        },
+        1024: {
+            slidesPerView: 3,
+        },
+    },
+});
+
+// Initialize Pricing Swipers (only active on mobile due to CSS)
+const pricingSwipers = document.querySelectorAll('.pricingSwiper');
+pricingSwipers.forEach((swiperEl, index) => {
+    new Swiper(swiperEl, {
+        slidesPerView: 1.1,
+        spaceBetween: 20,
+        centeredSlides: true,
+        pagination: {
+            el: swiperEl.querySelector('.pricing-pagination'),
+            clickable: true,
+        },
+        breakpoints: {
+            769: {
+                enabled: false,
+            },
+        },
+    });
+});
     </script>
 </body>
 </html>
