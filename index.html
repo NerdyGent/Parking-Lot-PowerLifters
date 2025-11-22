@@ -15,6 +15,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -22,10 +23,12 @@ body {
     background-color: #000;
     color: #fff;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .container {
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 1rem;
 }
@@ -757,13 +760,28 @@ body {
     gap: 2rem;
 }
 
-.pricingSwiper .swiper-slide {
-    height: auto;
-    width: auto;
-}
-
-.pricingSwiper .swiper-pagination {
-    display: none;
+/* Pricing Swiper - Desktop as Grid, Mobile as Swiper */
+@media (min-width: 769px) {
+    .pricingSwiper {
+        overflow: visible;
+    }
+    
+    .pricingSwiper .swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        transform: none !important;
+    }
+    
+    .pricingSwiper .swiper-slide {
+        height: auto;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .pricingSwiper .swiper-pagination {
+        display: none !important;
+    }
 }
 
 .pricing-pagination {
@@ -1036,7 +1054,7 @@ body {
     text-align: center;
     margin-bottom: 0.75rem;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #fff 0%, #dc2626 50%, #ca8a04 100%);
+    background: linear-gradient(135deg, #fff 0%, #d4d4d8 50%, #fff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1119,27 +1137,109 @@ body {
 }
 
 /* Story Section */
+/* Story Section */
+.section-story {
+    background: linear-gradient(to bottom, #000 0%, #09090b 100%);
+    padding: 6rem 0;
+}
+
 .story-container {
-    max-width: 56rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.story-stat-card {
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%);
+    border: 1px solid #27272a;
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.story-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #dc2626, #ca8a04);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.story-stat-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(220, 38, 38, 0.3);
+    box-shadow: 0 12px 40px rgba(220, 38, 38, 0.15);
+}
+
+.story-stat-card:hover::before {
+    transform: scaleX(1);
+}
+
+.story-stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #dc2626, #ca8a04);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.story-stat-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+}
+
+.story-stat-text {
+    font-size: 0.875rem;
+    color: #71717a;
+    line-height: 1.5;
 }
 
 .story-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    background: linear-gradient(135deg, rgba(24, 24, 27, 0.6) 0%, rgba(9, 9, 11, 0.8) 100%);
-    padding: 2.5rem;
-    border-radius: 0.75rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.story-text-block {
+    background: linear-gradient(135deg, rgba(24, 24, 27, 0.4) 0%, rgba(9, 9, 11, 0.6) 100%);
     border: 1px solid #27272a;
+    border-radius: 1rem;
+    padding: 2rem;
 }
 
-.story-content p {
-    color: #e4e4e7;
-    line-height: 1.8;
-    font-size: 1.0625rem;
+.story-subtitle-heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
 }
 
-/* Arena Project */
+.story-text-block p {
+    color: #d4d4d8;
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+/* Community Section */
 .section-arena {
     background: linear-gradient(to bottom, #09090b 0%, #000 100%);
     padding: 6rem 0;
@@ -1159,220 +1259,281 @@ body {
     pointer-events: none;
 }
 
-.arena-card {
-    background: linear-gradient(135deg, rgba(24, 24, 27, 0.8) 0%, rgba(9, 9, 11, 0.9) 100%);
-    border: 1px solid rgba(220, 38, 38, 0.2);
-    border-radius: 1.5rem;
-    padding: 3rem;
+/* Community Section - Cleaner Design */
+.community-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
     max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    margin: 0 auto 3rem;
 }
 
-.arena-card::before {
+.community-stat-item {
+    background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+    border: 1px solid #27272a;
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.community-stat-item.highlighted {
+    border-color: rgba(220, 38, 38, 0.4);
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.05) 0%, #09090b 100%);
+}
+
+.community-stat-item::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 2px;
     background: linear-gradient(to right, #dc2626, #ca8a04);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
 }
 
-.arena-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-bottom: 2rem;
+.community-stat-item:hover::before {
+    transform: scaleX(1);
 }
 
-.arena-info {
-    display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
+.community-stat-item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(220, 38, 38, 0.4);
 }
 
-.arena-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(202, 138, 4, 0.1));
-    border-radius: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.arena-icon svg {
-    width: 30px;
-    height: 30px;
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
     color: #dc2626;
 }
 
-.arena-title {
-    font-size: 1.75rem;
+.stat-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.stat-amount {
+    font-size: 2.25rem;
     font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.stat-desc {
+    font-size: 0.875rem;
+    font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    background: linear-gradient(to right, #fff, #d4d4d8);
+    color: #71717a;
+    letter-spacing: 0.05em;
+}
+
+/* Progress Container */
+.progress-container {
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.progress-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #a1a1aa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.progress-percent {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #dc2626, #ca8a04);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-.arena-subtitle {
-    font-size: 1rem;
-    color: #a1a1aa;
-    line-height: 1.6;
-}
-
-.arena-funding {
-    text-align: right;
-}
-
-.funding-amount {
-    font-size: 2rem;
-    font-weight: 900;
-    color: #dc2626;
-    text-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
-}
-
-.funding-goal {
-    font-size: 1rem;
-    color: #71717a;
-}
-
-.arena-progress {
-    margin-bottom: 2.5rem;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 12px;
-    background-color: #27272a;
-    border-radius: 9999px;
+.progress-track {
+    height: 8px;
+    background: #18181b;
+    border-radius: 999px;
     overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(to right, #dc2626, #ca8a04);
-    transition: width 1s ease-out;
-    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
-}
-
-/* Multi-colored progress bar */
-.progress-fill-multi {
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
-
-.progress-segment {
-    height: 100%;
-    transition: width 1s ease-out;
     position: relative;
+    border: 1px solid #27272a;
 }
 
-.progress-segment::after {
+.progress-fill-animated {
+    height: 100%;
+    background: linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #ca8a04 100%);
+    border-radius: 999px;
+    position: relative;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-glow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4));
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+}
+
+/* Charity Grid */
+.charity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.charity-card {
+    background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+    border: 1px solid #27272a;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.charity-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+    height: 3px;
+    transition: transform 0.3s ease;
+    transform: scaleX(0);
 }
 
-.progress-segment.recupo {
+.charity-card.recupo::before {
     background: linear-gradient(to right, #dc2626, #ef4444);
-    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
 }
 
-.progress-segment.blind {
+.charity-card.blind::before {
     background: linear-gradient(to right, #3b82f6, #60a5fa);
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
 }
 
-/* Charity breakdown */
-.charity-breakdown {
-    margin-top: 2.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
+.charity-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
-.charity-item {
+.charity-card:hover::before {
+    transform: scaleX(1);
+}
+
+.charity-card.recupo:hover {
+    border-color: rgba(220, 38, 38, 0.4);
+}
+
+.charity-card.blind:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+.charity-header {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
+    margin-bottom: 1rem;
     align-items: flex-start;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(39, 39, 42, 0.6) 0%, rgba(24, 24, 27, 0.4) 100%);
-    border-radius: 0.75rem;
-    border: 1px solid rgba(39, 39, 42, 0.8);
+}
+
+.charity-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
     transition: all 0.3s ease;
 }
 
-.charity-item:hover {
-    border-color: rgba(220, 38, 38, 0.3);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+.charity-card.recupo .charity-icon {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
 }
 
-.charity-color {
-    width: 5px;
-    min-width: 5px;
-    height: 100%;
-    border-radius: 3px;
-    box-shadow: 0 0 10px currentColor;
+.charity-card.blind .charity-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
 }
 
-.charity-color.recupo-color {
-    background: linear-gradient(to bottom, #dc2626, #ef4444);
-    color: rgba(220, 38, 38, 0.5);
+.charity-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
-.charity-color.blind-color {
-    background: linear-gradient(to bottom, #3b82f6, #60a5fa);
-    color: rgba(59, 130, 246, 0.5);
-}
-
-.charity-details {
+.charity-info {
     flex: 1;
 }
 
-.charity-name {
-    font-size: 1.0625rem;
+.charity-title {
+    font-size: 1.125rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
     color: #fff;
+    margin-bottom: 0.25rem;
 }
 
-.charity-amount {
-    font-size: 0.9375rem;
-    color: #dc2626;
+.charity-amount-raised {
+    font-size: 0.875rem;
     font-weight: 600;
-    margin-bottom: 0.75rem;
 }
 
-.charity-description {
+.charity-card.recupo .charity-amount-raised {
+    color: #dc2626;
+}
+
+.charity-card.blind .charity-amount-raised {
+    color: #3b82f6;
+}
+
+.charity-desc {
     color: #a1a1aa;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     line-height: 1.6;
+    margin-bottom: 1.25rem;
 }
 
-.charity-description {
-    font-size: 0.875rem;
-    color: #71717a;
-    line-height: 1.5;
-    margin: 0;
+/* Mini progress bars in charity cards */
+.charity-progress-mini {
+    height: 4px;
+    background: #18181b;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid #27272a;
+}
+
+.mini-progress-fill {
+    height: 100%;
+    transition: width 1s ease-out;
+    border-radius: 999px;
+}
+
+.charity-card.recupo .mini-progress-fill {
+    background: linear-gradient(to right, #dc2626, #ef4444);
+}
+
+.charity-card.blind .mini-progress-fill {
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
 }
 
 .arena-description {
@@ -1385,6 +1546,8 @@ body {
     font-weight: 900;
     text-align: center;
     margin-bottom: 0.75rem;
+    color: #fff;
+    /* Removed gradient - cleaner look */
 }
 
 .pricing-subtitle {
@@ -1671,13 +1834,18 @@ body {
     }
     
     /* Mobile: Activate pricing swiper */
+    .pricingSwiper {
+        overflow: hidden;
+        padding: 1rem 0 3rem;
+    }
+    
     .pricingSwiper .swiper-wrapper {
         display: flex !important;
         flex-wrap: nowrap;
     }
     
     .pricingSwiper .swiper-slide {
-        width: 85% !important;
+        width: 82% !important;
         flex-shrink: 0;
     }
     
@@ -1728,8 +1896,26 @@ body {
         padding: 2rem 1.5rem;
     }
     
-    .charity-breakdown {
+    .charity-grid {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .community-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .community-stat-item {
+        padding: 1.5rem 1rem;
+    }
+    
+    .stat-amount {
+        font-size: 2rem;
+    }
+    
+    .progress-container {
+        margin-bottom: 3rem;
     }
     
     /* Gallery mobile improvements */
@@ -1745,6 +1931,28 @@ body {
     }
     
     /* Mobile story section */
+    /* Mobile story section */
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .story-stat-card {
+        padding: 1.5rem;
+    }
+    
+    .story-stat-number {
+        font-size: 2rem;
+    }
+    
+    .story-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .story-text-block {
+        padding: 1.5rem;
+    }
+    
     .story-content {
         padding: 1.5rem;
     }
@@ -1975,26 +2183,40 @@ body {
     </section>
 
     <!-- Story Section -->
-    <section id="story" class="section-dark">
-        <div class="container story-container">
+    <section id="story" class="section-story">
+        <div class="container">
             <h2 class="section-title">OUR STORY</h2>
-            <div class="story-content">
-                <p>
-                    Parking Lot Powerlifters started with a simple idea: what if we could bring the gym to you? 
-                    Our founder, passionate about strength training and community building, saw too many people 
-                    held back by expensive gym memberships, limited equipment access, and inflexible schedules.
-                </p>
-                <p>
-                    What began as a single barbell in a parking lot has grown into a full-service mobile 
-                    powerlifting operation. We've trained hundreds of athletes, from complete beginners to 
-                    competitive powerlifters, all while maintaining our core belief that location should never 
-                    limit your potential.
-                </p>
-                <p>
-                    Today, we're proud to serve our community with professional equipment, certified coaching, 
-                    and an unwavering commitment to your strength journey. Every session we deliver reinforces 
-                    our belief: the best gym is wherever you are.
-                </p>
+            <p class="section-subtitle">From one barbell to a movement</p>
+            
+            <div class="story-container">
+                <div class="story-grid">
+                    <div class="story-stat-card">
+                        <div class="story-stat-number">2025</div>
+                        <div class="story-stat-label">Founded</div>
+                        <p class="story-stat-text">Started with a single barbell in a parking lot</p>
+                    </div>
+                    <div class="story-stat-card">
+                        <div class="story-stat-number">500+</div>
+                        <div class="story-stat-label">Athletes Trained</div>
+                        <p class="story-stat-text">From beginners to competitive powerlifters</p>
+                    </div>
+                    <div class="story-stat-card">
+                        <div class="story-stat-number">50+</div>
+                        <div class="story-stat-label">Events</div>
+                        <p class="story-stat-text">Mobile training sessions delivered</p>
+                    </div>
+                </div>
+                
+                <div class="story-content">
+                    <div class="story-text-block">
+                        <h3 class="story-subtitle-heading">The Beginning</h3>
+                        <p>What started as a simple idea—bringing the gym to you—has grown into a full-service mobile powerlifting operation serving our community.</p>
+                    </div>
+                    <div class="story-text-block">
+                        <h3 class="story-subtitle-heading">Our Mission</h3>
+                        <p>We believe location should never limit your potential. Every session reinforces our core belief: the best gym is wherever you are.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -2066,65 +2288,89 @@ body {
     <!-- Community Support Section -->
     <section id="community" class="section-arena">
         <div class="container">
-            <span class="community-badge">Giving Back</span>
-            <h2 class="community-title">SUPPORTING OUR COMMUNITY</h2>
-            <!-- Charitable Giving -->
-            <div class="arena-card">
-                <div class="arena-header">
-                    <div class="arena-info">
-                        <div class="arena-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <!-- Heart/Charity Icon -->
-                                <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="arena-title">Community Support</h2>
-                            <p class="arena-subtitle">20% of all proceeds go to charity - you choose the allocation at purchase</p>
-                        </div>
+            <span class="section-badge">Giving Back</span>
+            <h2 class="section-title">SUPPORTING OUR COMMUNITY</h2>
+            <p class="section-subtitle">20% of all proceeds support local charities — you choose where</p>
+            
+            <!-- Stats Grid -->
+            <div class="community-stats-grid">
+                <div class="community-stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
                     </div>
-                    <div class="arena-funding">
-                        <div class="funding-amount">$17,950</div>
-                        <div class="funding-goal">of $70,000</div>
+                    <div class="stat-amount">$17,950</div>
+                    <div class="stat-desc">Raised</div>
+                </div>
+                <div class="community-stat-item">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-amount">$70,000</div>
+                    <div class="stat-desc">Goal</div>
+                </div>
+                <div class="community-stat-item highlighted">
+                    <div class="stat-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <div class="stat-amount">20%</div>
+                    <div class="stat-desc">Of Every Purchase</div>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span class="progress-label">Progress to Goal</span>
+                    <span class="progress-percent">25.6%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill-animated" style="width: 25.6%;">
+                        <div class="progress-glow"></div>
                     </div>
                 </div>
-                <div class="arena-progress">
-                    <div class="progress-bar">
-                        <!-- Multi-colored progress bar showing different charities -->
-                        <div class="progress-fill-multi">
-                            <div class="progress-segment recupo" style="width: 18.2%;" title="Recupo Coffee Shop: $12,750"></div>
-                            <div class="progress-segment blind" style="width: 7.4%;" title="Blind Foundation: $5,200"></div>
+            </div>
+            
+            <!-- Partner Charities -->
+            <div class="charity-grid">
+                <div class="charity-card recupo">
+                    <div class="charity-header">
+                        <div class="charity-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2M4 3h10v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2"/>
+                            </svg>
                         </div>
+                        <div class="charity-info">
+                            <h3 class="charity-title">Recupo Coffee Shop</h3>
+                            <div class="charity-amount-raised">$12,750 raised</div>
+                        </div>
+                    </div>
+                    <p class="charity-desc">Non-profit coffee shop providing employment and community support for individuals with autism and youth programs</p>
+                    <div class="charity-progress-mini">
+                        <div class="mini-progress-fill" style="width: 71%;"></div>
                     </div>
                 </div>
                 
-                <!-- Charity Breakdown -->
-                <div class="charity-breakdown">
-                    <div class="charity-item">
-                        <div class="charity-color recupo-color"></div>
-                        <div class="charity-details">
-                            <div class="charity-name">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
-                                    <path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2M4 3h10v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2"/>
-                                </svg>
-                                <strong>Recupo Coffee Shop Rebuild</strong>
-                            </div>
-                            <div class="charity-amount">$12,750 raised</div>
-                            <p class="charity-description">Non-profit coffee shop, arcade & game store for autism and youth community</p>
+                <div class="charity-card blind">
+                    <div class="charity-header">
+                        <div class="charity-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
+                            </svg>
+                        </div>
+                        <div class="charity-info">
+                            <h3 class="charity-title">Blind Foundation</h3>
+                            <div class="charity-amount-raised">$5,200 raised</div>
                         </div>
                     </div>
-                    <div class="charity-item">
-                        <div class="charity-color blind-color"></div>
-                        <div class="charity-details">
-                            <div class="charity-name">
-                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
-                                    <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
-                                </svg>
-                                <strong>Blind Foundation Support</strong>
-                            </div>
-                            <div class="charity-amount">$5,200 raised</div>
-                            <p class="charity-description">Accessibility resources and vision services for our community</p>
-                        </div>
+                    <p class="charity-desc">Providing accessibility resources, vision services, and independence training for the visually impaired community</p>
+                    <div class="charity-progress-mini">
+                        <div class="mini-progress-fill" style="width: 29%;"></div>
                     </div>
                 </div>
             </div>
@@ -2603,9 +2849,10 @@ const swiper = new Swiper('.gallerySwiper', {
 const pricingSwipers = document.querySelectorAll('.pricingSwiper');
 pricingSwipers.forEach((swiperEl, index) => {
     new Swiper(swiperEl, {
-        slidesPerView: 1.1,
-        spaceBetween: 20,
+        slidesPerView: 1.15,
+        spaceBetween: 15,
         centeredSlides: true,
+        initialSlide: 1, // Start on middle card (index 1 = second card = best value)
         pagination: {
             el: swiperEl.querySelector('.pricing-pagination'),
             clickable: true,
