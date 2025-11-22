@@ -1356,42 +1356,80 @@ body {
 .progress-percent {
     font-size: 1.25rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #dc2626, #ca8a04);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #fff;
 }
 
 .progress-track {
-    height: 8px;
+    height: 32px;
     background: #18181b;
     border-radius: 999px;
     overflow: hidden;
     position: relative;
     border: 1px solid #27272a;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
-.progress-fill-animated {
+.progress-fill-split {
+    display: flex;
     height: 100%;
-    background: linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #ca8a04 100%);
-    border-radius: 999px;
+    width: 100%;
+}
+
+.progress-segment-charity {
+    height: 100%;
     position: relative;
-    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.progress-glow {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4));
-    animation: shimmer 2s ease-in-out infinite;
+.progress-segment-charity.recupo {
+    background: linear-gradient(90deg, #dc2626 0%, #ef4444 50%, #f97316 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-@keyframes shimmer {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
+.progress-segment-charity.blind {
+    background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 50%, #3b82f6 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.segment-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+.progress-legend {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #a1a1aa;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.legend-color.recupo-legend {
+    background: linear-gradient(135deg, #dc2626, #f97316);
+}
+
+.legend-color.blind-legend {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
 }
 
 /* Charity Grid */
@@ -1511,6 +1549,28 @@ body {
     font-size: 0.9375rem;
     line-height: 1.6;
     margin-bottom: 1.25rem;
+}
+
+/* Powered by Recupo badge */
+.charity-badge-powered {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(249, 115, 22, 0.1));
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 0.5rem;
+    color: #dc2626;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.charity-badge-powered svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* Mini progress bars in charity cards */
@@ -1918,6 +1978,20 @@ body {
         margin-bottom: 3rem;
     }
     
+    .progress-track {
+        height: 28px;
+    }
+    
+    .segment-label {
+        font-size: 0.75rem;
+    }
+    
+    .progress-legend {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+    
     /* Gallery mobile improvements */
     .swiper-button-next,
     .swiper-button-prev {
@@ -2290,7 +2364,7 @@ body {
         <div class="container">
             <span class="section-badge">Giving Back</span>
             <h2 class="section-title">SUPPORTING OUR COMMUNITY</h2>
-            <p class="section-subtitle">20% of all proceeds support local charities — you choose where</p>
+            <p class="section-subtitle">20% of all proceeds — choose which charity to support at checkout</p>
             
             <!-- Stats Grid -->
             <div class="community-stats-grid">
@@ -2323,15 +2397,30 @@ body {
                 </div>
             </div>
             
-            <!-- Progress Bar -->
+            <!-- Progress Bar with Segmented Donations -->
             <div class="progress-container">
                 <div class="progress-header">
-                    <span class="progress-label">Progress to Goal</span>
-                    <span class="progress-percent">25.6%</span>
+                    <span class="progress-label">Community Impact</span>
+                    <span class="progress-percent">$17,950 Raised</span>
                 </div>
                 <div class="progress-track">
-                    <div class="progress-fill-animated" style="width: 25.6%;">
-                        <div class="progress-glow"></div>
+                    <div class="progress-fill-split">
+                        <div class="progress-segment-charity recupo" style="width: 71%;">
+                            <span class="segment-label">$12,750</span>
+                        </div>
+                        <div class="progress-segment-charity blind" style="width: 29%;">
+                            <span class="segment-label">$5,200</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-legend">
+                    <div class="legend-item">
+                        <div class="legend-color recupo-legend"></div>
+                        <span>Recupo Coffee Shop</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color blind-legend"></div>
+                        <span>Blind Foundation</span>
                     </div>
                 </div>
             </div>
@@ -2351,6 +2440,12 @@ body {
                         </div>
                     </div>
                     <p class="charity-desc">Non-profit coffee shop providing employment and community support for individuals with autism and youth programs</p>
+                    <div class="charity-badge-powered">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                        <span>Energy & Drinks Powered by Recupo</span>
+                    </div>
                     <div class="charity-progress-mini">
                         <div class="mini-progress-fill" style="width: 71%;"></div>
                     </div>
