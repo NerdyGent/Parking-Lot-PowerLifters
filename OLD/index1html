@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Lot Powerlifters - Forge Your Strength</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Bebas+Neue&display=swap');
+        
+        body {
+            font-family: 'Bebas Neue', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+        }
+        
+        .roman-font {
+            font-family: 'Cinzel', serif;
+        }
+        
+        .glow-red {
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.8), 0 0 40px rgba(220, 38, 38, 0.5);
+        }
+        
+        .glow-gold {
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.8), 0 0 40px rgba(251, 191, 36, 0.5);
+        }
+        
+        .hero-pattern {
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(220, 38, 38, 0.03) 35px, rgba(220, 38, 38, 0.03) 70px);
+        }
+        
+        .spartan-border {
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #dc2626, #b91c1c, #dc2626) 1;
+            position: relative;
+        }
+        
+        .spartan-border::before {
+            content: '⚔';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            background: #0f0f0f;
+            padding: 0 10px;
+            color: #dc2626;
+        }
+        
+        .package-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+        }
+        
+        .package-card:hover::before {
+            left: 100%;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(220, 38, 38, 0.3);
+        }
+        
+        .laurel-divider {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q25 0, 50 10 T100 10' stroke='%23dc2626' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: center;
+            height: 20px;
+            opacity: 0.5;
+        }
+        
+        .shield-icon {
+            filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.5));
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Roman/Spartan themed packages
+        const packages = [
+            {
+                name: "GLADIATOR",
+                subtitle: "The Warrior's Beginning",
+                price: 150,
+                sessions: "4 Sessions/Month",
+                description: "Forge your foundation in the arena",
+                icon: "🛡️",
+                features: [
+                    "Basic Combat Training",
+                    "Warrior Nutrition Guide",
+                    "Arena Access (Off-Peak)",
+                    "Monthly Strength Assessment"
+                ],
+                popular: false
+            },
+            {
+                name: "CENTURION",
+                subtitle: "Elite Commander's Path",
+                price: 250,
+                sessions: "8 Sessions/Month",
+                description: "Lead with strength and discipline",
+                icon: "⚔️",
+                features: [
+                    "Advanced Battle Techniques",
+                    "Personal War Council (1/month)",
+                    "Full Arena Access",
+                    "Legion Nutrition Plan",
+                    "Recovery & Mobility Training"
+                ],
+                popular: true
+            },
+            {
+                name: "SPARTAN",
+                subtitle: "300 Warriors Strong",
+                price: 400,
+                sessions: "Unlimited Sessions",
+                description: "Become legendary, fight unlimited",
+                icon: "👑",
+                features: [
+                    "Unlimited Battle Training",
+                    "Weekly War Council Sessions",
+                    "24/7 Thermopylae Access",
+                    "Custom Warrior Protocol",
+                    "Competition Preparation",
+                    "Supplement Strategy",
+                    "Priority Equipment Access"
+                ],
+                popular: false
+            }
+        ];
+
+        function App() {
+            const [formData, setFormData] = useState({
+                name: '',
+                email: '',
+                phone: ''
+            });
+            const [showPayment, setShowPayment] = useState(false);
+
+            return (
+                <div className="min-h-screen bg-black text-white">
+                    {/* Hero Section */}
+                    <div className="hero-pattern relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black"></div>
+                        
+                        <div className="relative container mx-auto px-4 py-20 text-center">
+                            {/* Logo */}
+                            <div className="mb-8 flex justify-center items-center">
+                                <div className="text-8xl shield-icon">🏛️</div>
+                            </div>
+                            
+                            {/* Main Title */}
+                            <h1 className="text-7xl md:text-9xl font-black mb-4 glow-red tracking-wider">
+                                PARKING LOT
+                            </h1>
+                            <h2 className="text-5xl md:text-7xl font-black mb-6 glow-gold roman-font">
+                                POWERLIFTERS
+                            </h2>
+                            
+                            <div className="laurel-divider my-8"></div>
+                            
+                            <p className="text-2xl md:text-3xl mb-4 text-zinc-400 roman-font italic">
+                                "Molon Labe" - Come and Take Them
+                            </p>
+                            <p className="text-xl md:text-2xl text-zinc-500 max-w-3xl mx-auto">
+                                Where warriors are forged under the open sky. Train like the ancients, lift like legends.
+                            </p>
+                            
+                            {/* Feature Pills */}
+                            <div className="flex flex-wrap justify-center gap-4 mt-12">
+                                <div className="bg-red-600/20 border border-red-600 px-6 py-3 rounded-full">
+                                    <span className="text-red-400 font-bold">⚡ OUTDOOR ARENA</span>
+                                </div>
+                                <div className="bg-amber-600/20 border border-amber-600 px-6 py-3 rounded-full">
+                                    <span className="text-amber-400 font-bold">🏺 ANCIENT METHODS</span>
+                                </div>
+                                <div className="bg-zinc-600/20 border border-zinc-400 px-6 py-3 rounded-full">
+                                    <span className="text-zinc-300 font-bold">💪 MODERN IRON</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Packages Section */}
+                    <div className="bg-gradient-to-b from-black via-zinc-900 to-black py-20">
+                        <div className="container mx-auto px-4">
+                            <div className="text-center mb-16">
+                                <h2 className="text-6xl font-black mb-4 glow-red roman-font">
+                                    CHOOSE YOUR PATH
+                                </h2>
+                                <p className="text-2xl text-zinc-400 roman-font italic">
+                                    Select the warrior tier that matches your conquest
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                                {packages.map((pkg, index) => (
+                                    <div
+                                        key={pkg.name}
+                                        className={`package-card rounded-lg p-8 ${
+                                            pkg.popular
+                                                ? 'bg-gradient-to-br from-red-900 via-red-800 to-red-900 spartan-border'
+                                                : 'bg-zinc-900 border-2 border-zinc-800'
+                                        } ${pkg.popular ? 'md:scale-110 md:-mt-4 md:mb-4' : ''}`}
+                                    >
+                                        {pkg.popular && (
+                                            <div className="text-center mb-4">
+                                                <span className="bg-amber-500 text-black px-4 py-1 rounded-full text-sm font-black animate-pulse-glow">
+                                                    ⭐ MOST CHOSEN BY WARRIORS ⭐
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        {/* Icon */}
+                                        <div className="text-center mb-4">
+                                            <span className="text-7xl">{pkg.icon}</span>
+                                        </div>
+
+                                        {/* Package Name */}
+                                        <h3 className={`text-4xl font-black text-center mb-2 roman-font ${
+                                            pkg.popular ? 'glow-gold' : 'text-red-500'
+                                        }`}>
+                                            {pkg.name}
+                                        </h3>
+                                        
+                                        <p className="text-center text-zinc-400 italic mb-6 roman-font">
+                                            {pkg.subtitle}
+                                        </p>
+
+                                        {/* Price */}
+                                        <div className="text-center mb-6">
+                                            <div className="text-5xl font-black mb-2">
+                                                ${pkg.price}
+                                                <span className="text-xl text-zinc-500">/month</span>
+                                            </div>
+                                            <div className={`text-lg font-bold ${
+                                                pkg.popular ? 'text-amber-400' : 'text-red-400'
+                                            }`}>
+                                                {pkg.sessions}
+                                            </div>
+                                        </div>
+
+                                        <div className="laurel-divider my-6"></div>
+
+                                        {/* Description */}
+                                        <p className="text-center text-zinc-300 mb-6 italic">
+                                            {pkg.description}
+                                        </p>
+
+                                        {/* Features */}
+                                        <ul className="space-y-3 mb-8">
+                                            {pkg.features.map((feature, i) => (
+                                                <li key={i} className="flex items-start">
+                                                    <span className="text-red-500 mr-2 text-xl">⚔️</span>
+                                                    <span className="text-zinc-300">{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+
+                                        {/* CTA Button */}
+                                        <button
+                                            className={`w-full py-4 px-6 rounded-lg font-black text-xl transition-all duration-300 ${
+                                                pkg.popular
+                                                    ? 'bg-amber-500 hover:bg-amber-400 text-black shadow-lg shadow-amber-500/50'
+                                                    : 'bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-600/50'
+                                            } hover:scale-105`}
+                                            onClick={() => alert(`Joining the ${pkg.name} warriors! Feature coming soon.`)}
+                                        >
+                                            JOIN THE {pkg.name}S
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Why Choose Us Section */}
+                    <div className="bg-black py-20">
+                        <div className="container mx-auto px-4">
+                            <h2 className="text-5xl font-black text-center mb-16 glow-red roman-font">
+                                THE WARRIOR'S ADVANTAGE
+                            </h2>
+                            
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                                <div className="text-center p-6 bg-zinc-900 rounded-lg border border-red-900 hover:border-red-600 transition-all">
+                                    <div className="text-5xl mb-4">🏋️</div>
+                                    <h3 className="text-xl font-bold mb-2 text-red-500">Premium Iron</h3>
+                                    <p className="text-zinc-400">Competition-grade equipment for serious warriors</p>
+                                </div>
+                                
+                                <div className="text-center p-6 bg-zinc-900 rounded-lg border border-red-900 hover:border-red-600 transition-all">
+                                    <div className="text-5xl mb-4">🌙</div>
+                                    <h3 className="text-xl font-bold mb-2 text-red-500">Open Sky Arena</h3>
+                                    <p className="text-zinc-400">Train under the stars, forge strength in nature</p>
+                                </div>
+                                
+                                <div className="text-center p-6 bg-zinc-900 rounded-lg border border-red-900 hover:border-red-600 transition-all">
+                                    <div className="text-5xl mb-4">🎖️</div>
+                                    <h3 className="text-xl font-bold mb-2 text-red-500">Battle-Tested Coaches</h3>
+                                    <p className="text-zinc-400">Learn from champions who've conquered the platform</p>
+                                </div>
+                                
+                                <div className="text-center p-6 bg-zinc-900 rounded-lg border border-red-900 hover:border-red-600 transition-all">
+                                    <div className="text-5xl mb-4">🤝</div>
+                                    <h3 className="text-xl font-bold mb-2 text-red-500">Legion Unity</h3>
+                                    <p className="text-zinc-400">Join a brotherhood of dedicated lifters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="bg-zinc-950 border-t-2 border-red-900 py-12">
+                        <div className="container mx-auto px-4 text-center">
+                            <div className="text-6xl mb-4">🏛️</div>
+                            <h3 className="text-3xl font-black mb-2 roman-font glow-red">
+                                PARKING LOT POWERLIFTERS
+                            </h3>
+                            <p className="text-zinc-500 mb-6 roman-font italic">
+                                "Victory Loves Preparation"
+                            </p>
+                            <div className="laurel-divider mb-6"></div>
+                            <p className="text-xs text-zinc-600">
+                                © 2025 Parking Lot Powerlifters | Forging Warriors Since Day One
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Lot Powerlifters - Mobile Powerlifting Training</title>
+    <style>
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #000;
+    color: #fff;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Navigation */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #27272a;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    color: #dc2626;
+}
+
+.brand-name {
+    font-size: 1.125rem;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+}
+
+.brand-subtitle {
+    font-size: 0.75rem;
+    color: #71717a;
+    letter-spacing: 0.1em;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #e4e4e7;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #3f3f46;
+    padding: 0.5rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #18181b;
+}
+
+.btn-lg {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 1rem;
+}
+
+.btn-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: 0.5rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to bottom, #000 0%, #18181b 100%);
+    padding-top: 80px;
+}
+
+.hero-content {
+    max-width: 42rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #ef4444;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, #dc2626, #ca8a04);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.125rem;
+    color: #a1a1aa;
+    max-width: 32rem;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #27272a;
+}
+
+.stat-number {
+    font-size: 1.875rem;
+    font-weight: 900;
+    color: #dc2626;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #71717a;
+    text-transform: uppercase;
+}
+
+/* Sections */
+.section-dark {
+    background-color: #000;
+    padding: 4rem 0;
+}
+
+.section-mission {
+    background-color: #09090b;
+    padding: 4rem 0;
+    text-align: center;
+    border-top: 1px solid #27272a;
+    border-bottom: 1px solid #27272a;
+}
+
+.section-gallery {
+    background-color: #09090b;
+    padding: 4rem 0;
+    border-top: 1px solid #27272a;
+    border-bottom: 1px solid #27272a;
+}
+
+.section-arena {
+    background-color: #09090b;
+    padding: 3rem 0;
+    border-top: 1px solid #27272a;
+    border-bottom: 1px solid #27272a;
+}
+
+.section-pricing {
+    background-color: #000;
+    padding: 6rem 0;
+}
+
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Video Section */
+.video-container {
+    max-width: 56rem;
+    margin: 0 auto;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid #27272a;
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-note {
+    text-align: center;
+    color: #71717a;
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+/* Mission Section */
+.mission-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+}
+
+.mission-text {
+    font-size: 1.125rem;
+    color: #a1a1aa;
+    line-height: 1.75;
+    max-width: 56rem;
+    margin: 0 auto;
+}
+
+/* Story Section */
+.story-container {
+    max-width: 56rem;
+}
+
+.story-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.story-content p {
+    color: #d4d4d8;
+    line-height: 1.75;
+}
+
+/* Gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 1px solid #27272a;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    border-color: #dc2626;
+    transform: scale(1.02);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-note {
+    text-align: center;
+    color: #71717a;
+    font-size: 0.875rem;
+    margin-top: 1.5rem;
+}
+
+/* Arena Project */
+.arena-card {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    max-width: 56rem;
+    margin: 0 auto;
+}
+
+.arena-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.arena-info {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.arena-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #dc2626;
+    flex-shrink: 0;
+}
+
+.arena-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.arena-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.arena-subtitle {
+    font-size: 0.875rem;
+    color: #a1a1aa;
+}
+
+.arena-funding {
+    text-align: right;
+}
+
+.funding-amount {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #dc2626;
+}
+
+.funding-goal {
+    font-size: 0.875rem;
+    color: #71717a;
+}
+
+.arena-progress {
+    margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    background-color: #27272a;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #dc2626, #ca8a04);
+    transition: width 1s ease-out;
+}
+
+/* Multi-colored progress bar */
+.progress-fill-multi {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.progress-segment {
+    height: 100%;
+    transition: width 1s ease-out;
+}
+
+.progress-segment.recupo {
+    background: linear-gradient(to right, #dc2626, #ef4444);
+}
+
+.progress-segment.blind {
+    background: linear-gradient(to right, #3b82f6, #60a5fa);
+}
+
+/* Charity breakdown */
+.charity-breakdown {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.charity-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem;
+    background-color: rgba(39, 39, 42, 0.5);
+    border-radius: 0.375rem;
+}
+
+.charity-color {
+    width: 4px;
+    min-width: 4px;
+    height: 60px;
+    border-radius: 2px;
+}
+
+.charity-color.recupo-color {
+    background: linear-gradient(to bottom, #dc2626, #ef4444);
+}
+
+.charity-color.blind-color {
+    background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+}
+
+.charity-details {
+    flex: 1;
+}
+
+.charity-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+}
+
+.charity-amount {
+    font-size: 0.875rem;
+    color: #a1a1aa;
+    margin-bottom: 0.5rem;
+}
+
+.charity-description {
+    font-size: 0.875rem;
+    color: #71717a;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.arena-description {
+    color: #a1a1aa;
+}
+
+/* Pricing */
+.pricing-main-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 0.75rem;
+}
+
+.pricing-subtitle {
+    text-align: center;
+    color: #71717a;
+    margin-bottom: 3rem;
+}
+
+.pricing-category-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #a1a1aa;
+    margin: 3rem 0 2rem;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.pricing-card {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.pricing-card:hover {
+    transform: translateY(-4px);
+}
+
+.pricing-card-popular {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 1px #dc2626;
+}
+
+.popular-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #dc2626;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+}
+
+.pricing-header h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+}
+
+.pricing-session {
+    color: #71717a;
+    font-size: 0.875rem;
+}
+
+.pricing-price {
+    margin: 1.5rem 0;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #dc2626;
+}
+
+.save {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+.pricing-features {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.pricing-features li {
+    color: #a1a1aa;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-pricing {
+    width: 100%;
+    background-color: #27272a;
+    color: #fff;
+    border: none;
+    padding: 0.75rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+}
+
+.btn-pricing:hover {
+    background-color: #3f3f46;
+}
+
+.btn-pricing-popular {
+    background-color: #fff;
+    color: #000;
+}
+
+.btn-pricing-popular:hover {
+    background-color: #e4e4e7;
+}
+
+/* Footer */
+.footer {
+    background-color: #09090b;
+    border-top: 1px solid #27272a;
+    padding: 2rem 0;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-logo {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    color: #dc2626;
+}
+
+.footer-text {
+    font-size: 0.75rem;
+    color: #52525b;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 0.5rem;
+    max-width: 32rem;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #27272a;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #a1a1aa;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.booking-summary {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #27272a;
+}
+
+.booking-summary h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+}
+
+.booking-price {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #dc2626;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    color: #a1a1aa;
+    margin-bottom: 0.25rem;
+}
+
+.form-group input {
+    width: 100%;
+    background-color: #27272a;
+    border: 1px solid #3f3f46;
+    color: #fff;
+    padding: 0.625rem;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #dc2626;
+}
+
+.waiver {
+    background-color: rgba(220, 38, 38, 0.1);
+    border-left: 2px solid #dc2626;
+    padding: 1rem;
+    margin: 1rem 0;
+    font-size: 0.75rem;
+    color: #a1a1aa;
+    max-height: 8rem;
+    overflow-y: auto;
+}
+
+.waiver strong {
+    color: #d4d4d8;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: auto;
+    border-color: #3f3f46;
+}
+
+.form-checkbox label {
+    font-size: 0.75rem;
+    color: #a1a1aa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .hero-buttons button {
+        width: 100%;
+    }
+    
+    .hero-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .mission-title {
+        font-size: 1.75rem;
+    }
+    
+    .arena-header {
+        flex-direction: column;
+    }
+    
+    .arena-funding {
+        text-align: left;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .brand-text {
+        display: none;
+    }
+}
+
+@media (min-width: 640px) {
+    .hero-title {
+        font-size: 4rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-title {
+        font-size: 4.5rem;
+    }
+}
+    </style>
+</head>
+<body>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img class="logo" src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/spartan-helmet.svg" alt="Spartan Helmet">
+                <div class="brand-text">
+                    <div class="brand-name">PARKING LOT</div>
+                    <div class="brand-subtitle">POWERLIFTERS</div>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="scrollToSection('pricing')">BOOK NOW</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="badge">Mobile Training</span>
+                <h1 class="hero-title">
+                    ELITE POWERLIFTING,<br>
+                    <span class="gradient-text">WHEREVER YOU ARE</span>
+                </h1>
+                <p class="hero-description">
+                    Professional powerlifting equipment and coaching delivered directly to your location. No gym membership required.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn-primary btn-lg" onclick="scrollToSection('pricing')">
+                        VIEW PACKAGES
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                    <button class="btn-secondary btn-lg">LEARN MORE</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Events</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">5★</div>
+                        <div class="stat-label">Rated</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="section-dark">
+        <div class="container">
+            <h2 class="section-title">SEE US IN ACTION</h2>
+            <div class="video-container">
+                <video controls poster="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&h=675&fit=crop">
+                    <source src="/path-to-your-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <p class="video-note">Upload your video file to replace this placeholder</p>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="section-mission">
+        <div class="container">
+            <span class="badge">Our Mission</span>
+            <h2 class="mission-title">EMPOWERING STRENGTH, ONE REP AT A TIME</h2>
+            <p class="mission-text">
+                We believe everyone deserves access to elite powerlifting training, regardless of location. 
+                Our mission is to bring professional-grade equipment and expert coaching directly to you, 
+                eliminating barriers and making strength accessible to all. We're not just building stronger 
+                bodies—we're building a stronger community.
+            </p>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="section-dark">
+        <div class="container story-container">
+            <h2 class="section-title">OUR STORY</h2>
+            <div class="story-content">
+                <p>
+                    Parking Lot Powerlifters started with a simple idea: what if we could bring the gym to you? 
+                    Our founder, passionate about strength training and community building, saw too many people 
+                    held back by expensive gym memberships, limited equipment access, and inflexible schedules.
+                </p>
+                <p>
+                    What began as a single barbell in a parking lot has grown into a full-service mobile 
+                    powerlifting operation. We've trained hundreds of athletes, from complete beginners to 
+                    competitive powerlifters, all while maintaining our core belief that location should never 
+                    limit your potential.
+                </p>
+                <p>
+                    Today, we're proud to serve our community with professional equipment, certified coaching, 
+                    and an unwavering commitment to your strength journey. Every session we deliver reinforces 
+                    our belief: the best gym is wherever you are.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="section-gallery">
+        <div class="container">
+            <h2 class="section-title">GALLERY</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=600&fit=crop" alt="Training session 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=600&fit=crop" alt="Training session 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=600&fit=crop" alt="Training session 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=600&h=600&fit=crop" alt="Training session 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1517836477-4ff2c1037d96?w=600&h=600&fit=crop" alt="Training session 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&h=600&fit=crop" alt="Training session 6">
+                </div>
+            </div>
+            <p class="gallery-note">Replace these placeholder images with your own training photos</p>
+        </div>
+    </section>
+
+    <!-- Community Support Section -->
+    <section class="section-arena">
+        <div class="container">
+            <span class="badge" style="display: block; text-align: center; margin-bottom: 1rem;">Giving Back</span>
+            <h2 class="section-title" style="margin-bottom: 3rem;">SUPPORTING OUR COMMUNITY</h2>
+            <!-- Charitable Giving -->
+            <div class="arena-card">
+                <div class="arena-header">
+                    <div class="arena-info">
+                        <div class="arena-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <!-- Heart/Charity Icon -->
+                                <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="arena-title">Community Support</h2>
+                            <p class="arena-subtitle">20% of all proceeds go to charity - you choose the allocation at purchase</p>
+                        </div>
+                    </div>
+                    <div class="arena-funding">
+                        <div class="funding-amount">$17,950</div>
+                        <div class="funding-goal">of $70,000</div>
+                    </div>
+                </div>
+                <div class="arena-progress">
+                    <div class="progress-bar">
+                        <!-- Multi-colored progress bar showing different charities -->
+                        <div class="progress-fill-multi">
+                            <div class="progress-segment recupo" style="width: 18.2%;" title="Recupo Coffee Shop: $12,750"></div>
+                            <div class="progress-segment blind" style="width: 7.4%;" title="Blind Foundation: $5,200"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charity Breakdown -->
+                <div class="charity-breakdown">
+                    <div class="charity-item">
+                        <div class="charity-color recupo-color"></div>
+                        <div class="charity-details">
+                            <div class="charity-name">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
+                                    <path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2M4 3h10v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2"/>
+                                </svg>
+                                <strong>Recupo Coffee Shop Rebuild</strong>
+                            </div>
+                            <div class="charity-amount">$12,750 raised</div>
+                            <p class="charity-description">Non-profit coffee shop, arcade & game store for autism and youth community</p>
+                        </div>
+                    </div>
+                    <div class="charity-item">
+                        <div class="charity-color blind-color"></div>
+                        <div class="charity-details">
+                            <div class="charity-name">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
+                                    <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
+                                </svg>
+                                <strong>Blind Foundation Support</strong>
+                            </div>
+                            <div class="charity-amount">$5,200 raised</div>
+                            <p class="charity-description">Accessibility resources and vision services for our community</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section-pricing">
+        <div class="container">
+            <span class="badge">Pricing</span>
+            <h2 class="pricing-main-title">CHOOSE YOUR PACKAGE</h2>
+            <p class="pricing-subtitle">Professional training at your location</p>
+
+            <!-- Exclusive Pricing -->
+            <h3 class="pricing-category-title">EXCLUSIVE PRICING - 1 ON 1 TRAINING</h3>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>1 on 1</h3>
+                        <p class="pricing-session">1 Session</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price">$100</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>• 1 Session</li>
+                        <li>• All Equipment</li>
+                        <li>• Expert Coaching</li>
+                        <li>• Flexible Scheduling</li>
+                    </ul>
+                    <button class="btn-pricing" onclick="openBooking('1 on 1', 100)">SELECT</button>
+                </div>
+
+                <div class="pricing-card pricing-card-popular">
+                    <div class="popular-badge">BEST VALUE</div>
+                    <div class="pricing-header">
+                        <h3>3-Pack</h3>
+                        <p class="pricing-session">3 Sessions</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price">$200</span>
+                        <span class="save">Save $100</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>• 3 Sessions</li>
+                        <li>• All Equipment</li>
+                        <li>• Expert Coaching</li>
+                        <li>• Flexible Scheduling</li>
+                    </ul>
+                    <button class="btn-pricing btn-pricing-popular" onclick="openBooking('3-Pack', 200)">SELECT</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>5-Pack</h3>
+                        <p class="pricing-session">5 Sessions</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price">$300</span>
+                        <span class="save">Save $200</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>• 5 Sessions</li>
+                        <li>• All Equipment</li>
+                        <li>• Expert Coaching</li>
+                        <li>• Flexible Scheduling</li>
+                    </ul>
+                    <button class="btn-pricing" onclick="openBooking('5-Pack', 300)">SELECT</button>
+                </div>
+            </div>
+
+            <!-- Group Pricing -->
+            <h3 class="pricing-category-title">GROUP PRICING</h3>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>5 Sessions</h3>
+                        <p class="pricing-session">Group Training</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price">$150</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>• Group Training</li>
+                        <li>• All Equipment</li>
+                        <li>• Expert Coaching</li>
+                        <li>• Group Atmosphere</li>
+                    </ul>
+                    <button class="btn-pricing" onclick="openBooking('5 Sessions Group', 150)">SELECT</button>
+                </div>
+
+                <div class="pricing-card pricing-card-popular">
+                    <div class="popular-badge">BEST VALUE</div>
+                    <div class="pricing-header">
+                        <h3>10 Sessions</h3>
+                        <p class="pricing-session">Group Training</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price">$250</span>
+                        <span class="save">Save $50</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>• Group Training</li>
+                        <li>• All Equipment</li>
+                        <li>• Expert Coaching</li>
+                        <li>• Group Atmosphere</li>
+                    </ul>
+                    <button class="btn-pricing btn-pricing-popular" onclick="openBooking('10 Sessions Group', 250)">SELECT</button>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>20 Sessions</h3>
+                        <p class="pricing-session">Group Training</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="price">$400</span>
+                        <span class="save">Save $200</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>• Group Training</li>
+                        <li>• All Equipment</li>
+                        <li>• Expert Coaching</li>
+                        <li>• Group Atmosphere</li>
+                    </ul>
+                    <button class="btn-pricing" onclick="openBooking('20 Sessions Group', 400)">SELECT</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <img class="footer-logo" src="https://game-icons.net/icons/ffffff/000000/1x1/delapouite/spartan-helmet.svg" alt="Spartan Helmet">
+            <p class="footer-text">© 2025 Parking Lot Powerlifters</p>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Complete Booking</h2>
+                <button class="modal-close" onclick="closeBooking()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-summary">
+                    <h3 id="bookingPackage"></h3>
+                    <div class="booking-price" id="bookingPrice"></div>
+                </div>
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="waiver">
+                        <p><strong>LIABILITY WAIVER</strong></p>
+                        <p>I acknowledge powerlifting involves inherent risks and release Parking Lot Powerlifters from all liability.</p>
+                    </div>
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the terms</label>
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">COMPLETE PAYMENT</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+    <script>
+// Smooth scroll to section
+function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Booking Modal
+let currentPackage = '';
+let currentPrice = 0;
+
+function openBooking(packageName, price) {
+    currentPackage = packageName;
+    currentPrice = price;
+    
+    document.getElementById('bookingPackage').textContent = packageName;
+    document.getElementById('bookingPrice').textContent = '$' + price;
+    document.getElementById('bookingModal').classList.add('active');
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+function closeBooking() {
+    document.getElementById('bookingModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    
+    // Reset form
+    document.getElementById('bookingForm').reset();
+}
+
+// Close modal when clicking outside
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeBooking();
+    }
+});
+
+// Handle form submission
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const terms = document.getElementById('terms').checked;
+    
+    if (!terms) {
+        alert('Please agree to the terms and conditions');
+        return;
+    }
+    
+    // Here you would normally send the data to your server
+    console.log('Booking submitted:', {
+        package: currentPackage,
+        price: currentPrice,
+        name: name,
+        email: email,
+        phone: phone
+    });
+    
+    alert('Booking submitted! We will contact you shortly.');
+    closeBooking();
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeBooking();
+    }
+});
+
+// Animate progress bar on scroll
+function animateProgressBar() {
+    const progressBar = document.querySelector('.progress-fill');
+    if (!progressBar) return;
+    
+    const rect = progressBar.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+    
+    if (isVisible && !progressBar.classList.contains('animated')) {
+        progressBar.classList.add('animated');
+        // The animation is handled by CSS
+    }
+}
+
+// Check progress bar visibility on scroll
+window.addEventListener('scroll', animateProgressBar);
+window.addEventListener('load', animateProgressBar);
+    </script>
+</body>
+</html>
